@@ -18,10 +18,12 @@ run them all
 
 ```
 192.168.99.21 redis.local
-# 192.168.99.101 bs01.local 
-# 192.168.99.102 bs02.local 
-# 192.168.99.103 bs03.local 
-# 192.168.99.104 bs04.local 
+192.168.99.22 bsg-monitor.local
+192.168.99.23 bsg-map.local
+192.168.99.101 bs01.local 
+192.168.99.102 bs02.local 
+192.168.99.103 bs03.local 
+192.168.99.104 bs04.local 
 
 ```
 
@@ -57,3 +59,12 @@ vagrant up redis --provision-with start
 vagrant up bs01; vagrant up bs02; vagrant up bs03; vagrant up bs04
 ```
 
+### Display WebApp
+
+#### Initialize Scala Backend and NodeJS Frontend
+
+> first time
+
+```shell
+vagrant up bsg-monitor; vagrant up bsg-map
+```

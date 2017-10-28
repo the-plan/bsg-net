@@ -1,6 +1,19 @@
 # bsg-net
 run them all
 
+## Initial setup
+
+- install VirtualBox + Vagrant
+- create a directory: `mkdir the-plan`
+- `cd the-plan`
+- `git clone https://github.com/the-plan/basestar.git`
+- `git clone https://github.com/the-plan/bsg-monitor.git`
+- `git clone https://github.com/the-plan/bsg-map.git`
+- `git clone https://github.com/the-plan/k-raider.git`
+- `git clone https://github.com/the-plan/fake-raider.git`
+- `git clone https://github.com/the-plan/bsg-net.git`
+- `cd bsg-net`
+
 ## Update your hosts file
 
 ```

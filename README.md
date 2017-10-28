@@ -36,7 +36,7 @@ vagrant up redis --provision-with start
 
 ### BaseStars
 
-#### Initialize redis server
+#### Initialize BaseStars microservices
 
 > first time
 

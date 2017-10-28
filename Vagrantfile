@@ -235,8 +235,48 @@ Vagrant.configure("2") do |config|
   #   BSG Map
   # ---------------------------
 
+  config.vm.define "bsg-map" do |node| 
+    
+    node.vm.hostname = "bsg-map.local"
+    node.vm.network "private_network", ip: "192.168.99.23"
 
+    node.vm.network :forwarded_port, guest: 8080, host: 9091
 
+    node.vm.provider "virtualbox" do |vb|
+      vb.memory = 256
+      vb.cpus = 1
+      vb.name = "bsg-map"
+    end
+    
+    node.vm.provision "setup", type: "shell", inline: <<-SHELL
+      echo "👋 Installing nodejs..."
+      apt-get update -y
+      curl -sL https://deb.nodesource.com/setup_7.x | sudo bash -
+      apt-get install nodejs -y
 
+    SHELL
+
+    node.vm.provision "file", source: "../bsg-map", destination: "$HOME/bsg-map"
+
+    node.vm.provision "build", type: "shell", inline: <<-SHELL
+      echo "👋 Building BSG MAp..."
+      cd bsg-map
+      npm install
+    SHELL
+    
+    node.vm.provision "run", type: "shell", inline: <<-SHELL
+      echo "👋 Building and running BSG Map..."
+
+      export PORT=8080
+      export RAIDERS_SERVICE=http://bsg-monitor.local:8080/api/raiders
+
+      cd bsg-map
+      nohup npm start &
+
+      echo "🌏 Bsg-Map listening on http://bsg-map.local:8080 ..."
+      
+    SHELL
+
+  end # end of config - BSG Map
 
 end

@@ -24,7 +24,18 @@ run them all
 192.168.99.102 bs02.local 
 192.168.99.103 bs03.local 
 192.168.99.104 bs04.local 
-
+192.168.99.105 bs05.local 
+192.168.99.106 bs06.local 
+192.168.99.107 bs07.local 
+192.168.99.201 r01.local
+192.168.99.202 r02.local
+192.168.99.203 r03.local
+192.168.99.204 r04.local
+192.168.99.205 r05.local
+192.168.99.206 r06.local
+192.168.99.207 r07.local
+192.168.99.208 r08.local
+192.168.99.209 r09.local
 ```
 
 ### Redis server
@@ -57,6 +68,7 @@ vagrant up redis --provision-with start
 
 ```shell
 vagrant up bs01; vagrant up bs02; vagrant up bs03; vagrant up bs04
+vagrant up bs05; vagrant up bs06; vagrant up bs06
 ```
 
 ### Display WebApp
@@ -68,3 +80,37 @@ vagrant up bs01; vagrant up bs02; vagrant up bs03; vagrant up bs04
 ```shell
 vagrant up bsg-monitor; vagrant up bsg-map
 ```
+
+### Run raiders
+
+> first time
+
+```shell
+vagrant up r01; vagrant up r02; vagrant up r03; vagrant up r04
+vagrant up r05; vagrant up r06; vagrant up r07; vagrant up r08; vagrant up r09
+```
+
+## Run when all vms are provisionned
+
+
+> if you change starting parameters
+
+- `vagrant up redis --provision-with start`
+- `vagrant up bs01 --provision-with run`
+- `vagrant up bs02 --provision-with run`
+- `vagrant up bs03 --provision-with run`
+- `vagrant up bs04 --provision-with run`
+- `vagrant up bs05 --provision-with run`
+- `vagrant up bs06 --provision-with run`
+- `vagrant up bs07 --provision-with run`
+- `vagrant up bsg-monitor --provision-with run`
+- `vagrant up bsg-map --provision-with run`
+- `vagrant up r01 --provision-with run`
+- `vagrant up r02 --provision-with run`
+- `vagrant up r03 --provision-with run`
+- `vagrant up r04 --provision-with run`
+- `vagrant up r05 --provision-with run`
+- `vagrant up r06 --provision-with run`
+- `vagrant up r07 --provision-with run`
+- `vagrant up r08 --provision-with run`
+- `vagrant up r09 --provision-with run`

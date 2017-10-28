@@ -10,15 +10,21 @@ BOX_IMAGE = "bento/ubuntu-17.04"
 # 192.168.99.22 bsg-monitor.local
 # 192.168.99.23 bsg-map.local
 # 192.168.99.101 bs01.local 
-# http://bs01.local:8080
 # 192.168.99.102 bs02.local 
-# http://bs02.local:8080
 # 192.168.99.103 bs03.local 
-# http://bs03.local:8080
 # 192.168.99.104 bs04.local 
-# http://bs04.local:8080
-# 192.168.99.22 bsg-monitor.local
-
+# 192.168.99.105 bs05.local 
+# 192.168.99.106 bs06.local 
+# 192.168.99.107 bs07.local 
+# 192.168.99.201 r01.local
+# 192.168.99.202 r02.local
+# 192.168.99.203 r03.local
+# 192.168.99.204 r04.local
+# 192.168.99.205 r05.local
+# 192.168.99.206 r06.local
+# 192.168.99.207 r07.local
+# 192.168.99.208 r08.local
+# 192.168.99.209 r09.local
 
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
@@ -103,6 +109,39 @@ Vagrant.configure("2") do |config|
       :guest_port => 8080,
       :host_port => 8084,
       :color => "FF33F0"
+    },
+    {
+      :name => "bs05",
+      :hostname => "bs05.local",
+      :ip => "192.168.99.105",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 8085,
+      :color => "edab38"
+    },
+    {
+      :name => "bs06",
+      :hostname => "bs06.local",
+      :ip => "192.168.99.106",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 8086,
+      :color => "9e37dd"
+    },
+    {
+      :name => "bs07",
+      :hostname => "bs07.local",
+      :ip => "192.168.99.107",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 8087,
+      :color => "3dedea"
     }
   ]
   # vagrant up bs01 --provision
@@ -130,7 +169,6 @@ Vagrant.configure("2") do |config|
       SHELL
 
       # vagrant up bs02 --provision-with file
-      #node.vm.provision "file", source: "./gitbucket-#{GIT_BUCKET_VERSION}", destination: "basestar"
       node.vm.provision "file", source: "../basestar", destination: "$HOME/basestar"
       # do the same thing with a git clone
 
@@ -268,17 +306,170 @@ Vagrant.configure("2") do |config|
     
     node.vm.provision "run", type: "shell", inline: <<-SHELL
       echo "👋 Building and running BSG Map..."
+      cd bsg-map
 
       export PORT=8080
-      export RAIDERS_SERVICE=http://bsg-monitor.local:8080/api/raiders
+      #export RAIDERS_SERVICE=http://bsg-monitor.local:8080/api/raiders
+      export RAIDERS_SERVICE=http://192.168.99.22:8080/api/raiders
 
-      cd bsg-map
-      nohup npm start &
+      
+      nohup npm start > /dev/null 2>&1 &
 
       echo "🌏 Bsg-Map listening on http://bsg-map.local:8080 ..."
       
     SHELL
 
   end # end of config - BSG Map
+
+
+  # ===========================
+  #   Raiders microservices
+  # ===========================
+
+  raiders=[
+    {
+      :name => "r01",
+      :hostname => "r01.local",
+      :ip => "192.168.99.201",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7071
+    },
+    {
+      :name => "r02",
+      :hostname => "r02.local",
+      :ip => "192.168.99.202",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7072
+    },
+    {
+      :name => "r03",
+      :hostname => "r03.local",
+      :ip => "192.168.99.203",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7073
+    },  
+    {
+      :name => "r04",
+      :hostname => "r04.local",
+      :ip => "192.168.99.204",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7074
+    },  
+    {
+      :name => "r05",
+      :hostname => "r05.local",
+      :ip => "192.168.99.205",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7075
+    },
+    {
+      :name => "r06",
+      :hostname => "r06.local",
+      :ip => "192.168.99.206",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7076
+    },
+    {
+      :name => "r07",
+      :hostname => "r07.local",
+      :ip => "192.168.99.207",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7077
+    }, 
+    {
+      :name => "r08",
+      :hostname => "r08.local",
+      :ip => "192.168.99.208",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7078
+    },   
+    {
+      :name => "r09",
+      :hostname => "r09.local",
+      :ip => "192.168.99.209",
+      :box => BOX_IMAGE,
+      :ram => 256,
+      :cpu => 1,
+      :guest_port => 8080,
+      :host_port => 7079
+    },                     
+  ]
+
+  raiders.each do |raider| 
+    config.vm.define raider[:name] do |node|
+      node.vm.box = raider[:box]
+      node.vm.hostname = raider[:hostname]
+      node.vm.network "private_network", ip: raider[:ip]
+      node.vm.network :forwarded_port, guest: raider[:guest_port], host: raider[:host_port]
+
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = raider[:ram]
+        vb.cpus =  raider[:cpu]
+        vb.name =  raider[:name]
+      end
+
+      node.vm.provision "setup", type: "shell", inline: <<-SHELL
+        echo "👋 Installing Java..."
+        apt-get update -y
+        apt-get install openjdk-8-jdk -y
+        apt-get install maven -y
+      SHELL
+
+      node.vm.provision "file", source: "../k-raider", destination: "$HOME/k-raider"
+      # do the same thing with a git clone
+
+      node.vm.provision "build", type: "shell", inline: <<-SHELL
+        echo "👋 Building Raider..."
+        cd k-raider
+        mvn clean package
+
+      SHELL
+
+      node.vm.provision "run", type: "shell", inline: <<-SHELL
+        echo "👋 running Raider..."
+        export PORT=#{raider[:guest_port]}
+        export SERVICE_PORT=#{raider[:guest_port]}
+        export COLOR=#{raider[:color]}
+        export REDIS_RECORDS_KEY="bsg-the-plan"
+        export SERVICE_NAME=#{raider[:name]}
+        #export SERVICE_HOST=#{raider[:hostname]}
+        export SERVICE_HOST=#{raider[:ip]}
+        export SERVICE_ROOT="/api"
+        export REDIS_PORT=7777
+        export REDIS_HOST="192.168.99.21"
+        #export REDIS_PASSWORD=
+
+        cd k-raider
+        nohup java -jar target/k-raider-1.0-SNAPSHOT-fat.jar &
+
+        echo "🌏 Raider listening on http://#{raider[:hostname]}:#{raider[:guest_port]}  ..."
+      SHELL
+
+    end # end config
+  end # end raiders
 
 end

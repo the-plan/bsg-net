@@ -25,6 +25,7 @@ BOX_IMAGE = "bento/ubuntu-17.04"
 # 192.168.99.207 r07.local
 # 192.168.99.208 r08.local
 # 192.168.99.209 r09.local
+# 192.168.99.210 faker-raider.local
 
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
@@ -299,13 +300,13 @@ Vagrant.configure("2") do |config|
     node.vm.provision "file", source: "../bsg-map", destination: "$HOME/bsg-map"
 
     node.vm.provision "build", type: "shell", inline: <<-SHELL
-      echo "👋 Building BSG MAp..."
+      echo "👋 Building BSG Msp..."
       cd bsg-map
       npm install
     SHELL
     
     node.vm.provision "run", type: "shell", inline: <<-SHELL
-      echo "👋 Building and running BSG Map..."
+      echo "👋 Running BSG Map..."
       cd bsg-map
 
       export PORT=8080
@@ -471,5 +472,58 @@ Vagrant.configure("2") do |config|
 
     end # end config
   end # end raiders
+
+  # ===========================
+  #   Fake raider
+  # ===========================
+
+  config.vm.define "fake-raider" do |node| 
+    
+    node.vm.hostname = "fake-raider.local"
+    node.vm.network "private_network", ip: "192.168.99.210"
+
+    node.vm.network :forwarded_port, guest: 8080, host: 9300
+
+    node.vm.provider "virtualbox" do |vb|
+      vb.memory = 256
+      vb.cpus = 1
+      vb.name = "fake-raider"
+    end
+    
+    node.vm.provision "setup", type: "shell", inline: <<-SHELL
+      echo "👋 Installing nodejs..."
+      apt-get update -y
+      curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
+      apt-get install nodejs -y
+
+    SHELL
+
+    node.vm.provision "file", source: "../fake-raider", destination: "$HOME/fake-raider"
+
+    node.vm.provision "build", type: "shell", inline: <<-SHELL
+      echo "👋 Building Fake Raider..."
+      cd fake-raider
+      npm install
+    SHELL
+    
+    node.vm.provision "run", type: "shell", inline: <<-SHELL
+      echo "👋 Running Fake Raider..."
+      cd fake-raider
+
+      export PORT=8080
+      export ENDPOINT="http://192.168.99.210:8080/api"
+      export HOST="192.168.99.210"
+      export DISCOVERY="http://192.168.99.22:8080/discovery"
+
+      #node index.js
+      nohup node index.js > /dev/null 2>&1 &
+
+      echo "🌏 Faker raider listening on http://192.168.99.210:8080/api ..."
+      
+    SHELL
+
+  end # end of config - fake raider
+
+
 
 end

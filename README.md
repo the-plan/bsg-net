@@ -36,6 +36,7 @@ run them all
 192.168.99.207 r07.local
 192.168.99.208 r08.local
 192.168.99.209 r09.local
+192.168.99.210 faker-raider.local
 ```
 
 ### Redis server
@@ -68,7 +69,7 @@ vagrant up redis --provision-with start
 
 ```shell
 vagrant up bs01; vagrant up bs02; vagrant up bs03; vagrant up bs04
-vagrant up bs05; vagrant up bs06; vagrant up bs06
+vagrant up bs05; vagrant up bs06; vagrant up bs07;
 ```
 
 ### Display WebApp

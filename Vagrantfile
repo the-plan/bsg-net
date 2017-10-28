@@ -13,6 +13,7 @@ BOX_IMAGE = "bento/ubuntu-17.04"
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
   
+  # Redis server
   config.vm.define "redis" do |node| 
     
     node.vm.hostname = "redis.local"
@@ -41,6 +42,10 @@ Vagrant.configure("2") do |config|
     SHELL
 
   end # end of config
+
+  # ===========================
+  #   BaseStars microservices
+  # ===========================
 
 
 end

@@ -123,7 +123,6 @@ Vagrant.configure("2") do |config|
       node.vm.provision "setup", type: "shell", inline: <<-SHELL
         echo "👋 Installing Java..."
         apt-get update -y
-        #apt-get install curl python-software-properties -y
         apt-get install openjdk-8-jdk -y
         apt-get install maven -y
       SHELL
@@ -156,7 +155,6 @@ Vagrant.configure("2") do |config|
 
         cd basestar
         nohup java  -jar target/basestar-1.0-SNAPSHOT-fat.jar &
-        # nohup java  -jar target/basestar-1.0-SNAPSHOT-fat.jar > /dev/null 2>&1 &
 
         echo "🌏 BaseStar listening on http://#{basestar[:hostname]}:#{basestar[:guest_port]}  ..."
       SHELL
@@ -180,7 +178,7 @@ Vagrant.configure("2") do |config|
     node.vm.network :forwarded_port, guest: 8080, host: 9090
 
     node.vm.provider "virtualbox" do |vb|
-      vb.memory = 256
+      vb.memory = 1024
       vb.cpus = 1
       vb.name = "bsg-monitor"
     end
@@ -210,12 +208,25 @@ Vagrant.configure("2") do |config|
     node.vm.provision "build", type: "shell", inline: <<-SHELL
       echo "👋 Building BSG Monitor..."
       cd bsg-monitor
-
+      sbt compile 
     SHELL
     
     node.vm.provision "run", type: "shell", inline: <<-SHELL
-      echo "👋 running BSG Monitor..."
+      echo "👋 Building and running BSG Monitor..."
 
+
+      export PORT=8080
+      export SERVICE_PORT=8080
+      export REDIS_RECORDS_KEY="bsg-the-plan"
+      export REDIS_PORT=7777
+      export REDIS_HOST="192.168.99.21" # add to a variable
+      #export REDIS_PASSWORD=
+
+      cd bsg-monitor
+      nohup sbt run &
+
+      echo "🌏 Bsg-Monitor listening on http://bsg-monitor.local:8080 ..."
+      
     SHELL
 
   end # end of config - BSG Monitor
@@ -223,6 +234,9 @@ Vagrant.configure("2") do |config|
   # ---------------------------
   #   BSG Map
   # ---------------------------
+
+
+
 
 
 end

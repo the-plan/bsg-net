@@ -7,6 +7,8 @@ BOX_IMAGE = "bento/ubuntu-17.04"
 # Update your hosts file
 # 192.168.99.21 redis.local
 # connect with medis with ip address 192.168.99.21 (port 7777)
+# 192.168.99.22 bsg-monitor.local
+# 192.168.99.23 bsg-map.local
 # 192.168.99.101 bs01.local 
 # http://bs01.local:8080
 # 192.168.99.102 bs02.local 
